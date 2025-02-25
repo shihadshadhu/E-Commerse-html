@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My E-Commerce</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        header {
+            background-color: #232f3e;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+        .cart-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #ff9900;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            animation: pulse 1.5s infinite;
+            transition: transform 0.2s ease-in-out;
+        }
+        .cart-btn:hover {
+            transform: scale(1.1);
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .product {
+            background: white;
+            border: 1px solid #ddd;
+            margin: 10px;
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product img {
+            width: 100%;
+            height: auto;
+        }
+        .btn {
+            background: #ff9900;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .btn:active {
+            transform: scale(0.9);
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function addToCart(productName, price) {
+            cart.push({ name: productName, price: price });
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Add animation effect to button
+            let button = event.target;
+            button.style.transform = "scale(1.2)";
+            setTimeout(() => { button.style.transform = "scale(1)"; }, 200);
+        }
+        
+        function goToCart() {
+            window.location.href = 'http://127.0.0.1:5500/add%20to%20cart/addtocart.html';
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>My E-Commerce</h1>
+        <button class="cart-btn" onclick="goToCart()">View Cart</button>
+    </header>
+    <div class="container">
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Product 1">
+            <h2>Product 1</h2>
+            <p>$10.99</p>
+            <button class="btn" onclick="addToCart('Product 1', 10.99)">Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Product 2">
+            <h2>Product 2</h2>
+            <p>$12.99</p>
+            <button class="btn" onclick="addToCart('Product 2', 12.99)">Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/150" alt="Product 3">
+            <h2>Product 3</h2>
+            <p>$15.99</p>
+            <button class="btn" onclick="addToCart('Product 3', 15.99)">Add to Cart</button>
+        </div>
+    </div>
+</body>
+</html>

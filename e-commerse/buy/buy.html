@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Confirm Purchase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 50%;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn {
+            background: #ff9900;
+            color: white;
+            border: none;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        .btn.enabled {
+            opacity: 1;
+        }
+    </style>
+    <script>
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cartContainer = document.getElementById("cart-items");
+            cartContainer.innerHTML = "";
+            if (cart.length === 0) {
+                cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+                return;
+            }
+            cart.forEach(item => {
+                cartContainer.innerHTML += `<p>${item.name} - ₹${item.price}</p>`;
+            });
+        }
+
+        function validateForm() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let address = document.getElementById("address").value;
+            let payment = document.getElementById("payment").value;
+            let confirmBtn = document.getElementById("confirm-btn");
+
+            if (name && email && address && payment) {
+                confirmBtn.disabled = false;
+                confirmBtn.classList.add("enabled");
+            } else {
+                confirmBtn.disabled = true;
+                confirmBtn.classList.remove("enabled");
+            }
+        }
+
+        function confirmPurchase() {
+            let customerDetails = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                address: document.getElementById("address").value,
+                payment: document.getElementById("payment").value
+            };
+
+            localStorage.setItem('customerDetails', JSON.stringify(customerDetails)); // Store customer details
+            window.location.href = "http://127.0.0.1:5500/recipt/recipt.html"; // Redirect to receipt page
+        }
+
+        window.onload = loadCart;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Confirm Your Purchase</h2>
+        <h3>Cart Items:</h3>
+        <div id="cart-items"></div>
+
+        <h3>Enter Your Details</h3>
+        <input type="text" id="name" placeholder="Full Name" oninput="validateForm()">
+        <input type="email" id="email" placeholder="Email Address" oninput="validateForm()">
+        <input type="text" id="address" placeholder="Shipping Address" oninput="validateForm()">
+
+        <h3>Select Payment Method</h3>
+        <select id="payment" onchange="validateForm()">
+            <option value="">--Select Payment Method--</option>
+            <option value="UPI">UPI (Google Pay, PhonePe, Paytm)</option>
+            <option value="Credit/Debit Card">Credit/Debit Card</option>
+            <option value="Net Banking">Net Banking</option>
+            <option value="COD">Cash on Delivery (COD)</option>
+        </select>
+
+        <button id="confirm-btn" class="btn" disabled onclick="confirmPurchase()">Confirm Purchase</button>
+    </div>
+</body>
+</html>

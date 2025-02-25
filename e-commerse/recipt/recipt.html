@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f8f8;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        .details, .bill {
+            text-align: left;
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fafafa;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #f4f4f4;
+        }
+        .total {
+            font-weight: bold;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #ff9900;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #e68a00;
+        }
+    </style>
+    <script>
+        function loadReceipt() {
+            let customer = JSON.parse(localStorage.getItem('customer')) || {};
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let totalAmount = 0;
+
+            // Display Customer Details
+            document.getElementById("customer-details").innerHTML = `
+                <p><strong>Name:</strong> ${customer.name}</p>
+                <p><strong>Address:</strong> ${customer.address}</p>
+                <p><strong>Phone:</strong> ${customer.phone}</p>
+            `;
+
+            // Display Product Details in Table Format
+            let productRows = "";
+            cart.forEach((item, index) => {
+                totalAmount += item.price;
+                productRows += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${item.name}</td>
+                        <td>$${item.price.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById("product-details").innerHTML = `
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                    </tr>
+                    ${productRows}
+                    <tr class="total">
+                        <td colspan="2">Total</td>
+                        <td>$${totalAmount.toFixed(2)}</td>
+                    </tr>
+                </table>
+            `;
+
+            // Clear Cart after showing the receipt
+            localStorage.removeItem('cart');
+        }
+    </script>
+</head>
+<body onload="loadReceipt()">
+    <div class="container">
+        <h2>Order Receipt</h2>
+
+        <div class="details">
+            <h3>Customer Details</h3>
+            <div id="customer-details"></div>
+        </div>
+
+        <div class="bill">
+            <h3>Product Details</h3>
+            <div id="product-details"></div>
+        </div>
+
+        <button class="btn" onclick="window.location.href='http://127.0.0.1:5500/track/trackpro.html'">Track Your Product</button>
+    </div>
+</body>
+</html>

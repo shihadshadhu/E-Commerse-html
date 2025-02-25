@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Tracking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f8f8;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .track-container {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            background: #e0e0e0;
+            border-radius: 50px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        .truck {
+            position: absolute;
+            width: 80px;
+            bottom: 10px;
+            animation: moveTruck 10s linear forwards;
+        }
+        @keyframes moveTruck {
+            0% { left: -100px; }
+            100% { left: 100%; }
+        }
+        .status {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #ff9900;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #e68a00;
+        }
+        .status-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .step {
+            width: 20%;
+            padding: 5px;
+            text-align: center;
+            border-bottom: 4px solid gray;
+        }
+        .active {
+            color: green;
+            border-bottom: 4px solid green;
+        }
+    </style>
+    <script>
+        function updateStatus() {
+            let steps = document.querySelectorAll(".step");
+            let index = 0;
+            
+            function nextStep() {
+                if (index < steps.length) {
+                    steps[index].classList.add("active");
+                    index++;
+                    setTimeout(nextStep, 2500);
+                }
+            }
+            nextStep();
+        }
+        window.onload = updateStatus;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Track Your Order</h2>
+        <p>Thank you for your purchase! Your order is on the way.</p>
+        
+        <div class="status-container">
+            <div class="step">Packed</div>
+            <div class="step">Shipped</div>
+            <div class="step">Out for Delivery</div>
+            <div class="step">Delivered</div>
+        </div>
+        
+        <div class="track-container">
+            <img src="https://png.pngtree.com/png-vector/20200908/ourmid/pngtree-delivery-truck-vector-illustration-png-image_2340948.jpg" alt="Delivery Truck" class="truck">
+        </div>
+        
+        <p class="status">Estimated Delivery: 3-5 Business Days</p>
+        
+        <button class="btn" onclick="window.location.href='http://127.0.0.1:5500/Home%20/Home.html'">Back to Home</button>
+    </div>
+</body>
+</html>
